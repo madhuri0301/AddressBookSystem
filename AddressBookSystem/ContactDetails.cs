@@ -162,5 +162,21 @@ namespace AddressBookSystem
 
             }
         }
+        //Function to Delete Contact 
+        public void DeleteContact()
+        {
+            Console.WriteLine("Enter the first name of the person: ");
+            string fName = Console.ReadLine();
+            List<ContactDetails> con = new List<ContactDetails>();
+            foreach (ContactDetails c in contacts)
+            {
+                if (c.firstName.Equals(fName))
+                {
+                    con.Add(c);
+                }
+            }
+            contacts.RemoveAll(i => con.Contains(i));
+            Console.WriteLine("Contact Removed Successfully");
+        }
     }
 }

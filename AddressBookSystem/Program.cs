@@ -17,7 +17,7 @@ namespace AddressBookSystem
             int choice;
             while (flag)
             {
-                Console.WriteLine("\n1. Display All Contacts\n2. Add New Contact\n3. Edit a Contact\n4. Exit");
+                Console.WriteLine("\n1. Display All Contacts\n2. Add New Contact\n3. Edit a Contact\n4. Delete a Contact \n Exit");
                 choice = int.Parse(Console.ReadLine());
                 if (choice == 1)
                 {
@@ -32,6 +32,10 @@ namespace AddressBookSystem
                     contact.EditContact();
                 }
                 else if (choice == 4)
+                {
+                    contact.DeleteContact();
+                }
+                else if (choice == 5)
                 {
                     flag = false;
                 }
