@@ -5,102 +5,126 @@ namespace AddressBookSystem
 {
     class Program
     {
-        public static void AddressBook(ContactDetails cont)
-        {
-            bool flag = true;
-            int choice;
-            ContactDetails contact = new ContactDetails();
-            //Menu to display for the user
-            while (flag)
-            {
-                try
-                {
-                    Console.WriteLine("\n1. Display All Contacts\n2. Add New Contact\n3. Edit Contact\n4. Delete Contact\n5. Exit");
-                    choice = int.Parse(Console.ReadLine());
-                    if (choice == 1)
-                    {
-                        contact.DisplayContact();
-                    }
-                    else if (choice == 2)
-                    {
-                        contact.AddNewContact();
-                    }
-                    else if (choice == 3)
-                    {
-                        contact.EditContact();
-                    }
-                    else if (choice == 4)
-                    {
-                        contact.DeleteContact();
-                    }
-                    else if (choice == 5)
-                    {
-                        flag = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Input");
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error: " + e.Message + "\n" + e.StackTrace);
-                }
-            }
-        }
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome To Address Book System!");
-            SwitchAddressBook switchaddressbook = new SwitchAddressBook();
-            // Create a list of contacts.
-            List<ContactDetails> contacts = new List<ContactDetails>();
-
+            string[] name;
+            int choice = 0;
+            string[] details;
             bool flag = true;
-            int choice;
+            string addBookName ;
 
-            while (flag)
+            SwitchAddressBook multipleAddressBooks = new SwitchAddressBook();
+            AddressBook addressBook = null;
+
+            Console.WriteLine("Welcome to The Address Book System");
+            while (true)
             {
                 try
                 {
-                    Console.WriteLine("\n1. Create New Address Book \n2. Use Another Address Book\n3. Exit");
-                    choice = int.Parse(Console.ReadLine());
-                    if (choice == 1)
+                    Console.WriteLine("1.Add Address Book \n2.Open Address Book");
+                    choice = Convert.ToInt32(Console.ReadLine());
+
+                    switch (choice)
                     {
-                        ContactDetails addressBook = new ContactDetails();
-                        Console.Write("\nEnter New Address Book's Name: ");
-                        string addressBookName = Console.ReadLine();
-                        switchaddressbook.AddNewAddressBook(addressBookName, addressBook);
-                        Console.WriteLine("Successfully created " + addressBookName + "\tUsing Address Book " + addressBookName + "...");
-                        AddressBook(addressBook);
-                    }
-                    else if (choice == 2)
-                    {
-                        Console.Write("\nEnter Address Book's Name: ");
-                        string addressBookName = Console.ReadLine();
-                        ContactDetails addressBook = switchaddressbook.GetAddressBook(addressBookName);
-                        if (addressBook != null)
-                        {
-                            Console.WriteLine("Using Address Book " + addressBookName + "___");
-                            AddressBook(addressBook);
-                        }
-                        else
-                            Console.WriteLine("There is no Book with name " + addressBookName);
-                    }
-                    else if (choice == 3)
-                    {
-                        flag = false;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Input");
+                        case 1:
+                            Console.WriteLine("Enter name of Address Book: ");
+                            addBookName = Console.ReadLine();
+                            multipleAddressBooks.AddAddressBook(addBookName);
+                            addressBook = multipleAddressBooks.GetAddressBook(addBookName);
+                            flag = true;
+                            break;
+                        case 2:
+                            Console.WriteLine("Enter name of Address Book: ");
+                            addBookName = Console.ReadLine();
+                            addressBook = multipleAddressBooks.GetAddressBook(addBookName);
+                            flag = true;
+                            if (addressBook == null)
+                            {
+                                Console.WriteLine("No such Address Book!");
+                                flag = false;
+                            }
+                            break;
+                        default:
+                            flag = false;
+                            Console.WriteLine("Invalid Choice!");
+                            break;
                     }
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Invalid data entered. Error: " + e.Message + "\n" + e.StackTrace);
+                    Console.WriteLine("Invalid data entered! Error! " + e.Message + "\n" + e.StackTrace);
+                }
+
+
+                while (flag)
+                {
+                    try
+                    {
+                        Console.WriteLine("1.Add Contact\n2.Edit Contact\n3.Remove a contact\n4.Search Person By City Or State\n5.Exit");
+                        choice = Convert.ToInt32(Console.ReadLine());
+
+                        switch (choice)
+                        {
+                            case 1:
+                                Console.WriteLine("Enter the details separated by comma");
+                                Console.WriteLine("First Name, Last Name, Address, City, State, ZipCode,Phone No, emailId");
+                                details = Console.ReadLine().Split(",");
+
+                                string message = addressBook.AddContact(details[0], details[1], details[2], details[3], details[4], details[5], details[6], details[7]);
+
+                                Console.WriteLine(message);
+                                break;
+                            case 2:
+                                Console.WriteLine("Enter the name to edit");
+                                name = Console.ReadLine().Split(" ");
+
+                                if (addressBook.CheckName(name[0], name[1]) == true)
+                                {
+                                    Console.WriteLine("Enter the following details separated by comma");
+                                    Console.WriteLine("FirstName,LastName,Address, City, State, ZipCode,Phone No emailId");
+                                    details = Console.ReadLine().Split(",");
+                                    addressBook.EditContact(details[0], details[1], details[2], details[3], details[4], details[5], details[6], details[7]);
+                                    Console.WriteLine("Details editted successfully");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No such contact found");
+                                }
+                                break;
+                            case 3:
+                                Console.WriteLine("Enter the name to be removed");
+                                name = Console.ReadLine().Split(" ");
+                                if (addressBook.CheckName(name[0], name[1]) == true)
+                                {
+                                    addressBook.RemoveContact(name[0], name[1]);
+                                    Console.WriteLine("Contact Removed Successfully");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No such contact found");
+                                }
+                                break;
+
+                            case 4:
+                                Console.WriteLine("Enter City or State");
+                                string cityOrState = Console.ReadLine();
+
+                                multipleAddressBooks.SearchPersonOverMultipleAddressBook(cityOrState);
+                                break;
+
+                            case 5:
+                                flag = false;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Invalid data entered. Error: " + e.Message + "\n" + e.StackTrace);
+                    }
                 }
             }
-
         }
     }
 }
