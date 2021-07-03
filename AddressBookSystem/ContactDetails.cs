@@ -42,6 +42,7 @@ namespace AddressBookSystem
         public void AddNewContact()
         {
 
+            bool check = false;
             ContactDetails contact = new ContactDetails();
             //Firstname Input
             string namePattern = "^[a-zA-Z ]+$";
@@ -58,56 +59,71 @@ namespace AddressBookSystem
                 throw new Exception("Name should be alphabetical!");
             else
                 contact.lastName = lastName;
-            //Address Input
-            string addressPattern = "^[a-zA-Z0-9 ]+$";
-            Console.WriteLine("Enter Address:");
-            string address = Console.ReadLine();
-            if (!Regex.IsMatch(address, addressPattern))
-                throw new Exception("Address should be in proper format!");
-            else
-                contact.address = address;
-            //City Input
-            Console.WriteLine("Enter City: ");
-            string city = Console.ReadLine();
-            if (!Regex.IsMatch(city, namePattern))
-                throw new Exception("City name should be in proper format!");
-            else
-                contact.city = city;
-            //State Input
-            Console.WriteLine("Enter State: ");
-            string state = Console.ReadLine();
-            if (!Regex.IsMatch(state, namePattern))
-                throw new Exception("State should be in proper format!");
-            else
-                contact.state = state;
-            //Zip code Input
-            string zipPattern = "[0-9]{6}";
-            Console.WriteLine("Enter ZIP Code: ");
-            string zip = Console.ReadLine();
-            if (!Regex.IsMatch(zip, zipPattern))
-                throw new Exception("ZIP Code should be a 6 digit number");
-            else
-                contact.zipCode = int.Parse(zip);
-            //Phone Number Input
-            string phonePattern = "[0-9]{10}";
-            Console.Write("Enter Phone Number: ");
-            string phNumber = Console.ReadLine();
-            if (!Regex.IsMatch(phNumber, phonePattern))
-                throw new Exception("Phone number must be a 10 digit number!");
-            else
-                contact.phoneNumber = long.Parse(phNumber);
+            ///<summary>
+            ///Checking for duplicate entry
+            ///</summary>
+            foreach (ContactDetails con in contacts)
+            {
+                if (con.firstName.ToUpper().Equals(firstName.ToUpper()) && con.lastName.ToUpper().Equals(lastName.ToUpper()))
+                {
+                    Console.WriteLine("Name Alreaqdy exists in the system! Enter Different name!");
+                    check = true;
+                    break;
+                }
+            }
+            if (check == false)
+            {
+                //Address Input
+                string addressPattern = "^[a-zA-Z0-9 ]+$";
+                Console.WriteLine("Enter Address:");
+                string address = Console.ReadLine();
+                if (!Regex.IsMatch(address, addressPattern))
+                    throw new Exception("Address should be in proper format!");
+                else
+                    contact.address = address;
+                //City Input
+                Console.WriteLine("Enter City: ");
+                string city = Console.ReadLine();
+                if (!Regex.IsMatch(city, namePattern))
+                    throw new Exception("City name should be in proper format!");
+                else
+                    contact.city = city;
+                //State Input
+                Console.WriteLine("Enter State: ");
+                string state = Console.ReadLine();
+                if (!Regex.IsMatch(state, namePattern))
+                    throw new Exception("State should be in proper format!");
+                else
+                    contact.state = state;
+                //Zip code Input
+                string zipPattern = "[0-9]{6}";
+                Console.WriteLine("Enter ZIP Code: ");
+                string zip = Console.ReadLine();
+                if (!Regex.IsMatch(zip, zipPattern))
+                    throw new Exception("ZIP Code should be a 6 digit number");
+                else
+                    contact.zipCode = int.Parse(zip);
+                //Phone Number Input
+                string phonePattern = "[0-9]{10}";
+                Console.Write("Enter Phone Number: ");
+                string phNumber = Console.ReadLine();
+                if (!Regex.IsMatch(phNumber, phonePattern))
+                    throw new Exception("Phone number must be a 10 digit number!");
+                else
+                    contact.phoneNumber = long.Parse(phNumber);
 
-            //EmailId Input
-            string mailPattern = @"[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-            Console.Write("Enter Email Id: ");
-            string mailId = Console.ReadLine();
-            if (!Regex.IsMatch(mailId, mailPattern))
-                throw new Exception("Check Mail address");
-            else
-                contact.emailId = mailId;
-            //Contact Added
-            contacts.Add(contact);
-            Console.WriteLine("New Contact added successfully");
+                //EmailId Input
+                string mailPattern = @"[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+                Console.Write("Enter Email Id: ");
+                string mailId = Console.ReadLine();
+                if (!Regex.IsMatch(mailId, mailPattern))
+                    throw new Exception("Check Mail address");
+                else
+                    contact.emailId = mailId;
+                //Contact Added
+                contacts.Add(contact);
+                Console.WriteLine("New Contact added successfully");
+            }
         }
         public void DisplayContact()
         {
