@@ -9,7 +9,7 @@ namespace AddressBookSystem
 
         Dictionary<string, AddressBook> addressBooksCollection = new Dictionary<string, AddressBook>();
         public Dictionary<string, List<ContactDetails>> ContactByCity;
-        Dictionary<string, List<ContactDetails>> ContactByState;
+        public Dictionary<string, List<ContactDetails>> ContactByState;
         List<string> cities;
         List<string> states;
         public SwitchAddressBook()
