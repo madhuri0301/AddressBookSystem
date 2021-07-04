@@ -31,6 +31,9 @@ namespace AddressBookSystem
             this.phoneNo = phoneNo;
             this.emailId = emailId;
         }
-
+        public override string ToString()
+        {
+            return "Name :" + firstName + " " + lastName + "\nAddress :" + address + "   ZipCode :" + zipCode + "\nPhone No :" + phoneNo + "   Email :" + emailId;
+        }
     }
 }

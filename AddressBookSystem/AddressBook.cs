@@ -74,5 +74,13 @@ namespace AddressBookSystem
             }
             return contact;
         }
+        public void SortByName()
+        {
+            contactList.Sort((contact1, contact2) => contact1.firstName.CompareTo(contact2.firstName));
+            foreach (ContactDetails c in contactList)
+            {
+                Console.WriteLine(c.ToString());
+            }
+        }
     }
 }
